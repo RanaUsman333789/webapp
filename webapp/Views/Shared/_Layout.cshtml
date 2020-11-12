@@ -1,0 +1,143 @@
+﻿@using webapp.EF;
+@using webapp.Models;
+@{ 
+    TemplateDBEntities _dbContext = new TemplateDBEntities();
+    List<LibraryVM> css = _dbContext.Database.SqlQuery<LibraryVM>(string.Format("exec getLibrariesByPageId {0}, {1}", 1, 1)).ToList();
+    List<LibraryVM> js = _dbContext.Database.SqlQuery<LibraryVM>(string.Format("exec getLibrariesByPageId {0}, {1}", 1, 2)).ToList();
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    @foreach (var item in css)
+    {
+        <link rel="stylesheet" href="@item.LibrarySrc">
+    }
+<link href="~/wysiwyg-editor-master/css/third_party/image_tui.css" rel="stylesheet" />
+    <link href="~/wysiwyg-editor-master/css/froala_editor.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/froala_editor.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/froala_style.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/code_view.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/draggable.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/colors.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/emoticons.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/image_manager.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/image.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/line_breaker.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/table.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/char_counter.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/video.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/fullscreen.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/file.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/quick_insert.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/help.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/third_party/spell_checker.css">
+    <link rel="stylesheet" href="~/wysiwyg-editor-master/css/plugins/special_characters.css">
+    <style>
+        .custom-class form {
+            width: 1000px !important;
+            height: 200px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { PageID = "1" }, null)</li>
+                    <li>@Html.ActionLink("About", "Index", "Home", new { PageID = "2" }, null)</li>
+                    <li>@Html.ActionLink("Contact", "Index", "Home", new { PageID = "3" }, null)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    <div>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that enables a clean separation of concerns and gives you full control over markup for enjoyable, agile development.
+
+
+
+        </p>
+    </div>
+
+    @foreach (var item in js)
+    {
+        <script src="@item.LibrarySrc"></script>
+    }
+
+    @*<script src="~/Scripts/jquery.jeditable.min.js"></script>
+
+        <script src="~/Scripts/jquery.jeditable.autogrow.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+
+                $('p').editable('/Home/EditSection', {
+                    cancel: 'Cancel',
+                    submit: 'Save',
+                    tooltip: "Click to edit...",
+                    cssclass: 'custom-class',
+                    cancelcssclass: 'btn btn-danger',
+                    submitcssclass: 'btn btn-success',
+                    type: 'textarea'
+                });
+            });
+        </script>*@
+
+    <script src="~/wysiwyg-editor-master/js/froala_editor.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/align.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/char_counter.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/code_beautifier.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/code_view.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/colors.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/draggable.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/emoticons.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/entities.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/file.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/font_size.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/font_family.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/fullscreen.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/image.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/image_manager.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/line_breaker.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/inline_style.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/link.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/lists.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/paragraph_format.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/paragraph_style.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/quick_insert.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/quote.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/table.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/save.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/url.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/video.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/help.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/print.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/third_party/spell_checker.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/special_characters.min.js"></script>
+    <script type="text/javascript" src="~/wysiwyg-editor-master/js/plugins/word_paste.min.js"></script>
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>

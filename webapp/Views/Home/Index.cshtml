@@ -1,0 +1,71 @@
+﻿@using webapp.Models
+@using webapp.EF;
+@using System.Web.Razor;
+@using RazorEngine;
+@using RazorEngine.Templating;
+@{
+    ViewBag.Title = "Home Page";
+    List<string> ids = new List<string>();
+    TemplateDBEntities _dbContext = new TemplateDBEntities();
+    List<SectionVM> sections = _dbContext.Database.SqlQuery<SectionVM>(string.Format("exec GetSectionByPageId {0}", (string)ViewBag.pageID)).ToList();
+
+}
+
+@foreach (var item in sections)
+{
+    { ids.Add(item.SectionID.ToString()); }
+    var pageID = item.PageID.ToString();
+    var str = $"{item.SectionFormattedHTML}";
+    <div id="@item.SectionID">@Html.Raw(str)</div>
+    
+}
+<button id="btnSave" class="btn btn-info">Save</button>
+<button id="btnEdit" class="btn btn-info">Edit</button>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            var editor;
+
+
+            $("#fr-logo").on('load', function () {
+
+
+                $("#fr-logo").remove();
+            });
+
+            $("#btnSave").attr("disabled", "true");
+            $("#btnEdit").on('click', function () {
+                debugger;
+                editor = FroalaEditor("#editor", {}, function () {
+
+                    //editor.button.addButtons($("#btnSave"));
+                });
+                
+                $("#btnSave").removeAttr("disabled");
+            });
+
+            $("#btnSave").on('click', function () {
+                debugger;
+                editor.destroy();
+                PostData("#editor");
+                
+            });
+
+            function PostData(elem) {
+                var html = $(elem).html();
+                $.post('/Home/EditSection', { body: html }, function (data) {
+                    if (data.status == "success") {
+                        alert("Updated");
+                        $("#btnSave").attr("disabled", "true");
+                    }
+                    else {
+                        alert("failed to update try again");
+                    }
+                });
+            }
+        });
+        
+    </script>
+}
