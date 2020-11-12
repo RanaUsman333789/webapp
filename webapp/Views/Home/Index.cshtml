@@ -9,6 +9,7 @@
     TemplateDBEntities _dbContext = new TemplateDBEntities();
     List<SectionVM> sections = _dbContext.Database.SqlQuery<SectionVM>(string.Format("exec GetSectionByPageId {0}", (string)ViewBag.pageID)).ToList();
 
+
 }
 
 @foreach (var item in sections)
